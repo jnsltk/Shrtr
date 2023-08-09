@@ -7,6 +7,7 @@ import tk.jnsl.shrtr.exception.BadRequestException;
 import tk.jnsl.shrtr.exception.NotFoundException;
 import tk.jnsl.shrtr.repository.UrlRepository;
 import tk.jnsl.shrtr.request.ShortenUrlRequest;
+import tk.jnsl.shrtr.util.UrlEncoder;
 
 import java.util.Optional;
 
@@ -20,6 +21,9 @@ public class UrlShortenerService {
     }
 
     public Optional<UrlEntity> shorten(ShortenUrlRequest shortenUrlRequest) {
+        if (shortenUrlRequest.getAlias() == null) {
+            shortenUrlRequest.setAlias(UrlEncoder.encodeUrl(shortenUrlRequest.getUrl()));
+        }
         if (urlRepository.existsByAlias(shortenUrlRequest.getAlias())) {
             throw new BadRequestException("Alias already exists.");
         }
