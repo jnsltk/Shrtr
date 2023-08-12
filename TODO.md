@@ -3,14 +3,13 @@ A URL shortener service API
 
 ### Todo
 
-- [ ] Expiring database records
 - [ ] Dockerize application
 - [ ] Set up CI/CD, deploy on VPS 
 - [ ] Testing
 
 ### In Progress
 
-- [ ] Expiring database records
+- [ ] Dockerize application
 
 ### Done ✓
 
@@ -20,3 +19,4 @@ A URL shortener service API
   - [x] Storing URLs in a postgres database
 - [x] URL validation
 - [x] Persist data
+- [x] Expiring database records

@@ -1,6 +1,8 @@
 package tk.jnsl.shrtr.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tk.jnsl.shrtr.entity.UrlEntity;
 import tk.jnsl.shrtr.exception.BadRequestException;
@@ -9,6 +11,8 @@ import tk.jnsl.shrtr.repository.UrlRepository;
 import tk.jnsl.shrtr.dto.ShortenUrlInputDto;
 import tk.jnsl.shrtr.util.UrlEncoder;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -38,6 +42,7 @@ public class UrlShortenerService {
             }
         }
 
+        System.out.println(urlEntity);
         UrlEntity postSaveUrlEntity = urlRepository.save(urlEntity);
         return Optional.of(postSaveUrlEntity);
     }
@@ -45,5 +50,12 @@ public class UrlShortenerService {
     public UrlEntity getUrl(String alias) {
         return urlRepository.findByAlias(alias)
                 .orElseThrow(() -> new NotFoundException("This alias doesn't exist, try making it!"));
+    }
+
+    @Transactional
+    @Scheduled(cron = "1 * * * * ?")
+    public void purgeExpired() {
+        Date now = Date.from(Instant.now());
+        urlRepository.deleteByExpiryDateLessThan(now);
     }
 }

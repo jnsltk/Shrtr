@@ -5,9 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.NaturalId;
 
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "Url_records")
 public class UrlEntity {
+    // Time it takes for records to expire in milliseconds
+    private final static long RECORD_EXPIRATION = 86400000;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +23,8 @@ public class UrlEntity {
     private String alias;
     @Column(name = "url", nullable = false)
     private String url;
+    @Column(name = "date_created", nullable = false)
+    private Timestamp expiryDate;
 
     public UrlEntity() {
 
@@ -26,6 +32,7 @@ public class UrlEntity {
     public UrlEntity(String alias, String url) {
         this.alias = alias;
         this.url = url;
+        this.expiryDate = new Timestamp(System.currentTimeMillis() + RECORD_EXPIRATION);
     }
 
     public Long getId() {
@@ -52,12 +59,21 @@ public class UrlEntity {
         this.url = url;
     }
 
+    public Timestamp getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Timestamp expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
     @Override
     public String toString() {
         return "UrlEntity{" +
                 "id=" + id +
                 ", alias='" + alias + '\'' +
                 ", url='" + url + '\'' +
+                ", expiryDate=" + expiryDate +
                 '}';
     }
 }
