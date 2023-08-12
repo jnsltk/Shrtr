@@ -6,7 +6,7 @@ import tk.jnsl.shrtr.entity.UrlEntity;
 import tk.jnsl.shrtr.exception.BadRequestException;
 import tk.jnsl.shrtr.exception.NotFoundException;
 import tk.jnsl.shrtr.repository.UrlRepository;
-import tk.jnsl.shrtr.request.ShortenUrlRequest;
+import tk.jnsl.shrtr.dto.ShortenUrlInputDto;
 import tk.jnsl.shrtr.util.UrlEncoder;
 
 import java.util.Optional;
@@ -20,19 +20,25 @@ public class UrlShortenerService {
         this.urlRepository = urlRepository;
     }
 
-    public Optional<UrlEntity> shorten(ShortenUrlRequest shortenUrlRequest) {
-        if (shortenUrlRequest.getAlias() == null) {
-            shortenUrlRequest.setAlias(UrlEncoder.encodeUrl(shortenUrlRequest.getUrl()));
+    public Optional<UrlEntity> shorten(ShortenUrlInputDto shortenUrlInputDto) {
+        String url = shortenUrlInputDto.getUrl();
+        String alias;
+        UrlEntity urlEntity;
+        if (shortenUrlInputDto.getAlias() == null || shortenUrlInputDto.getAlias().isBlank()) {
+            alias = UrlEncoder.encodeUrl(url);
+            urlEntity = new UrlEntity(alias, url);
+            if (urlRepository.existsByAlias(alias)) {
+                return Optional.of(urlEntity);
+            }
+        } else {
+            alias = shortenUrlInputDto.getAlias();
+            urlEntity = new UrlEntity(alias, url);
+            if (urlRepository.existsByAlias(alias)) {
+                throw new BadRequestException("This custom alias already exists");
+            }
         }
-        if (urlRepository.existsByAlias(shortenUrlRequest.getAlias())) {
-            throw new BadRequestException("Alias already exists.");
-        }
-        System.out.println("Shorten Url Request: " + shortenUrlRequest);
-        UrlEntity urlEntity = new UrlEntity(shortenUrlRequest.getAlias(), shortenUrlRequest.getUrl());
 
         UrlEntity postSaveUrlEntity = urlRepository.save(urlEntity);
-        System.out.println("Shortened Url: " + postSaveUrlEntity);
-
         return Optional.of(postSaveUrlEntity);
     }
 

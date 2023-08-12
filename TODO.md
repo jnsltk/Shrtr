@@ -4,9 +4,6 @@ A URL shortener service API
 ### Todo
 
 - [ ] URL validation
-- [ ] Revise API format
-- [ ] Logging
-- [ ] Revise hashing
 - [ ] Dockerize application
 - [ ] Set up CI/CD, deploy on VPS 
 

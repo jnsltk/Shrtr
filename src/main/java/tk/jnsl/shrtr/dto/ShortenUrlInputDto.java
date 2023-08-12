@@ -1,17 +1,14 @@
-package tk.jnsl.shrtr.request;
+package tk.jnsl.shrtr.dto;
 
 import jakarta.validation.constraints.NotNull;
+import tk.jnsl.shrtr.util.UrlEncoder;
 
-public class ShortenUrlRequest {
+public class ShortenUrlInputDto {
     @NotNull
     private String url;
     private String alias;
 
-    public ShortenUrlRequest(String url) {
-        this.url = url;
-    }
-
-    public ShortenUrlRequest(String url, String alias) {
+    public ShortenUrlInputDto(String url, String alias) {
         this.url = url;
         this.alias = alias;
     }
@@ -20,16 +17,8 @@ public class ShortenUrlRequest {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getAlias() {
         return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
     }
 
     @Override

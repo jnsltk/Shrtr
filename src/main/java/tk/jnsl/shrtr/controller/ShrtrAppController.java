@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tk.jnsl.shrtr.entity.UrlEntity;
-import tk.jnsl.shrtr.request.ShortenUrlRequest;
+import tk.jnsl.shrtr.dto.ShortenUrlInputDto;
 import tk.jnsl.shrtr.service.UrlShortenerService;
 
 import java.net.URI;
@@ -15,7 +15,7 @@ import java.net.URISyntaxException;
 
 @RestController
 public class ShrtrAppController {
-    private UrlShortenerService urlShortenerService;
+    private final UrlShortenerService urlShortenerService;
     @Autowired
     public ShrtrAppController(UrlShortenerService urlShortenerService) {
         this.urlShortenerService = urlShortenerService;
@@ -31,7 +31,7 @@ public class ShrtrAppController {
     }
 
     @PostMapping("/shorten/")
-    public ResponseEntity<?> createRedirect(@Valid @RequestBody ShortenUrlRequest shortenUrlRequest) {
-        return ResponseEntity.ok(urlShortenerService.shorten(shortenUrlRequest));
+    public ResponseEntity<?> createRedirect(@Valid @RequestBody ShortenUrlInputDto shortenUrlInputDto) {
+        return ResponseEntity.ok(urlShortenerService.shorten(shortenUrlInputDto));
     }
 }
