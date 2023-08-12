@@ -26,17 +26,18 @@ public class UrlShortenerService {
 
     public Optional<UrlEntity> shorten(ShortenUrlInputDto shortenUrlInputDto) {
         String url = shortenUrlInputDto.getUrl();
+        long expiryDate = shortenUrlInputDto.getExpiryDate();
         String alias;
         UrlEntity urlEntity;
         if (shortenUrlInputDto.getAlias() == null || shortenUrlInputDto.getAlias().isBlank()) {
             alias = UrlEncoder.encodeUrl(url);
-            urlEntity = new UrlEntity(alias, url);
+            urlEntity = new UrlEntity(alias, url, expiryDate);
             if (urlRepository.existsByAlias(alias)) {
                 return Optional.of(urlEntity);
             }
         } else {
             alias = shortenUrlInputDto.getAlias();
-            urlEntity = new UrlEntity(alias, url);
+            urlEntity = new UrlEntity(alias, url, expiryDate);
             if (urlRepository.existsByAlias(alias)) {
                 throw new BadRequestException("This custom alias already exists");
             }
@@ -56,6 +57,6 @@ public class UrlShortenerService {
     @Scheduled(cron = "1 * * * * ?")
     public void purgeExpired() {
         Date now = Date.from(Instant.now());
-        urlRepository.deleteByExpiryDateLessThan(now);
+        urlRepository.deleteByExpiryDateIsNotNullAndExpiryDateLessThan(now);
     }
 }

@@ -23,16 +23,16 @@ public class UrlEntity {
     private String alias;
     @Column(name = "url", nullable = false)
     private String url;
-    @Column(name = "date_created", nullable = false)
+    @Column(name = "expiry")
     private Timestamp expiryDate;
 
     public UrlEntity() {
 
     }
-    public UrlEntity(String alias, String url) {
+    public UrlEntity(String alias, String url, long expiresAfter) {
         this.alias = alias;
         this.url = url;
-        this.expiryDate = new Timestamp(System.currentTimeMillis() + RECORD_EXPIRATION);
+        this.expiryDate = (expiresAfter != 0) ? new Timestamp(System.currentTimeMillis() + expiresAfter) : null;
     }
 
     public Long getId() {

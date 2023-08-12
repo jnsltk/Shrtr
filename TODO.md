@@ -20,3 +20,4 @@ A URL shortener service API
 - [x] URL validation
 - [x] Persist data
 - [x] Expiring database records
+- [x] Allow setting expiry date, make it optional

@@ -8,10 +8,12 @@ public class ShortenUrlInputDto {
     @URL
     private final String url;
     private final String alias;
+    private final long expiryDate;
 
-    public ShortenUrlInputDto(String url, String alias) {
+    public ShortenUrlInputDto(String url, String alias, long expiryDate) {
         this.url = url;
         this.alias = alias;
+        this.expiryDate = expiryDate;
     }
 
     public String getUrl() {
@@ -22,11 +24,16 @@ public class ShortenUrlInputDto {
         return alias;
     }
 
+    public long getExpiryDate() {
+        return expiryDate;
+    }
+
     @Override
     public String toString() {
-        return "RedirectCreationRequest{" +
+        return "ShortenUrlInputDto{" +
                 "url='" + url + '\'' +
                 ", alias='" + alias + '\'' +
+                ", expiryDate=" + expiryDate +
                 '}';
     }
 }

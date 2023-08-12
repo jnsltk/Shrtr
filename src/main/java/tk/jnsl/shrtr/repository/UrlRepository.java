@@ -11,5 +11,6 @@ public interface UrlRepository extends JpaRepository<UrlEntity, Long> {
 
     Boolean existsByAlias(String alias);
 
-    void deleteByExpiryDateLessThan(Date now);
+    void deleteByExpiryDateIsNotNullAndExpiryDateLessThan(Date now);
+
 }
