@@ -1,12 +1,13 @@
 package tk.jnsl.shrtr.dto;
 
 import jakarta.validation.constraints.NotNull;
-import tk.jnsl.shrtr.util.UrlEncoder;
+import org.hibernate.validator.constraints.URL;
 
 public class ShortenUrlInputDto {
     @NotNull
-    private String url;
-    private String alias;
+    @URL
+    private final String url;
+    private final String alias;
 
     public ShortenUrlInputDto(String url, String alias) {
         this.url = url;

@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import tk.jnsl.shrtr.entity.UrlEntity;
 import tk.jnsl.shrtr.dto.ShortenUrlInputDto;
+import tk.jnsl.shrtr.exception.BadRequestException;
 import tk.jnsl.shrtr.service.UrlShortenerService;
 
 import java.net.URI;
@@ -31,7 +33,9 @@ public class ShrtrAppController {
     }
 
     @PostMapping("/shorten/")
-    public ResponseEntity<?> createRedirect(@Valid @RequestBody ShortenUrlInputDto shortenUrlInputDto) {
+    public ResponseEntity<?> createRedirect(@Valid @RequestBody ShortenUrlInputDto shortenUrlInputDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            throw new BadRequestException("You must enter a valid URL");
         return ResponseEntity.ok(urlShortenerService.shorten(shortenUrlInputDto));
     }
 }
