@@ -5,12 +5,10 @@ A URL shortener service API
 
 - [ ] Dockerize application
 - [ ] Set up CI/CD, deploy on VPS 
-- [ ] Testing
 
 ### In Progress
 
 - [ ] Dockerize application
-- [ ] Testing
 
 ### Done ✓
 
@@ -22,3 +20,4 @@ A URL shortener service API
 - [x] Persist data
 - [x] Expiring database records
 - [x] Allow setting expiry date, make it optional
+- [x] Basic testing
