@@ -10,6 +10,7 @@ A URL shortener service API
 ### In Progress
 
 - [ ] Dockerize application
+- [ ] Testing
 
 ### Done ✓
 
