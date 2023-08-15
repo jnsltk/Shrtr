@@ -3,12 +3,11 @@ A URL shortener service API
 
 ### Todo
 
-- [ ] Dockerize application
 - [ ] Set up CI/CD, deploy on VPS 
+- [ ] Write more tests
 
 ### In Progress
 
-- [ ] Dockerize application
 
 ### Done ✓
 
@@ -21,3 +20,4 @@ A URL shortener service API
 - [x] Expiring database records
 - [x] Allow setting expiry date, make it optional
 - [x] Basic testing
+- [x] Dockerize application
