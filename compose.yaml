@@ -1,6 +1,7 @@
 services:
   postgres:
     image: 'postgres:latest'
+    container_name: postgres
     environment:
       - 'POSTGRES_DB=shrtrdb'
       - 'POSTGRES_PASSWORD=secret'
@@ -9,5 +10,21 @@ services:
       - '5432:5432'
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+  app:
+    image: 'jnsltk/shrtr:latest'
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - postgres
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/shrtrdb'
+      - 'SPRING_DATASOURCE_USERNAME=myuser'
+      - 'SPRING_DATASOURCE_PASSWORD=secret'
+      - 'SPRING_JPA_HIBERNATE_DDL_AUTO=update'
+    expose:
+      - '8080'
+    ports:
+      - '8080:8080'
 volumes:
   pgdata:
